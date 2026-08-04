@@ -1,134 +1,253 @@
-/* Reset & Variables */
+/* Reset & Setup */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 body {
-    background: linear-gradient(135deg, #0f172a, #b9c1cd);
+    background: #05050a;
+    background-image: 
+        radial-gradient(circle at 15% 15%, rgba(118, 75, 162, 0.25) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(255, 75, 43, 0.15) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(20, 30, 48, 0.8) 0%, transparent 100%);
     min-height: 100vh;
-    display: flex;
-    justify-content:center;
-    align-items: center;
-    color: #f8fafc;
-    padding: 20px;
-}
-
-/* Main Card Wrapper */
-.card-container {
-    background: rgba(30, 41, 59, 0.7);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    width: 100%;
-    max-width: 420px;
-    padding: 35px 25px;
-    border-radius: 24px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    text-align: center;
-}
-
-/* Profile Header Styles */
-.profile-header {
-    margin-bottom: 30px;
-}
-
-.avatar-ring {
-    width: 90px;
-    height: 90px;
-    margin: 0 auto 15px auto;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #6366f1, #a855f7);
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 3px; /* Creates the border ring effect */
+    color: #ffffff;
+    padding: 20px;
+    perspective: 1200px;
+    overflow: hidden;
+}
+
+/* Floating Animation in Air */
+@keyframes float {
+    0% {
+        transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotateX(1.5deg) rotateY(-1.5deg);
+    }
+    100% {
+        transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+    }
+}
+
+/* 3D Scene Container */
+.scene {
+    width: 100%;
+    max-width: 540px;
+    height: 360px;
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Flippable Card Wrapper - Controlled by JS .flipped class now */
+.card-flippable {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.card-flippable.flipped {
+    transform: rotateY(180deg);
+}
+
+/* Shared Card Face Styles */
+.card-face {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(22, 24, 38, 0.95), rgba(11, 12, 19, 0.98));
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    padding: 28px;
+    box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.6),
+        0 0 40px rgba(118, 75, 162, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+}
+
+/* --- FRONT SIDE LAYOUT --- */
+.front-layout {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.avatar-box {
+    flex-shrink: 0;
 }
 
 .avatar {
-    width: 100%;
-    height: 100%;
-    background: #0f172a;
-    border-radius: 50%;
+    width: 75px;
+    height: 75px;
+    background: linear-gradient(135deg, #ff4b2b, #ff416c);
+    border-radius: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 24px;
-    font-weight: 700;
+    font-weight: 800;
+    color: #ffffff;
+    box-shadow: 0 8px 20px rgba(255, 65, 108, 0.35);
+}
+
+.front-info h1 {
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    margin-bottom: 4px;
     color: #ffffff;
 }
 
-.profile-header h1 {
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 5px;
-}
-
 .tagline {
-    font-size: 14px;
-    color: #94a3b8;
-    margin-bottom: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #a0aec0;
+    margin-bottom: 8px;
 }
 
 .location {
-    font-size: 12px;
-    color: #64748b;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #ffaa42;
+    background: rgba(255, 170, 66, 0.1);
+    border: 1px solid rgba(255, 170, 66, 0.2);
+    padding: 3px 10px;
     border-radius: 20px;
     display: inline-block;
 }
 
-/* Interactive Links */
 .links-section {
     display: flex;
-    flex-direction: column;
     gap: 12px;
-    margin-bottom: 25px;
 }
 
 .link-btn {
+    flex: 1;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 14px 20px;
+    padding: 10px 16px;
     border-radius: 12px;
-    color: #f8fafc;
+    color: #ffffff;
     text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 12px;
+    font-weight: 600;
     transition: all 0.3s ease;
 }
 
 .link-btn:hover {
-    background: rgba(99, 102, 241, 0.15);
-    border-color: #6366f1;
+    background: rgba(255, 65, 108, 0.12);
+    border-color: rgba(255, 65, 108, 0.4);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    box-shadow: 0 6px 15px rgba(255, 65, 108, 0.2);
 }
 
 .link-btn .arrow {
-    color: #94a3b8;
-    transition: transform 0.2s ease;
+    color: #a0aec0;
+    transition: transform 0.3s ease;
 }
 
 .link-btn:hover .arrow {
     transform: translateX(4px);
-    color: #6366f1;
+    color: #ff416c;
 }
 
-/* Highlight Variant */
-.link-btn.highlight {
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2));
-    border-color: rgba(99, 102, 241, 0.4);
+
+/* --- BACK SIDE LAYOUT --- */
+.back-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-/* Footer */
-.card-footer p {
+.back-content h2 {
+    font-size: 17px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 4px;
+}
+
+.back-bio {
+    font-size: 12px;
+    font-weight: 500;
+    color: #a0aec0;
+    line-height: 1.4;
+}
+
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.skill-tag {
     font-size: 11px;
-    color: #475569;
-    letter-spacing: 0.5px;
+    font-weight: 700;
+    background: rgba(118, 75, 162, 0.15);
+    border: 1px solid rgba(118, 75, 162, 0.4);
+    color: #d6bcfa;
+    padding: 4px 10px;
+    border-radius: 8px;
+}
+
+.link-btn.highlight {
+    background: linear-gradient(135deg, rgba(255, 65, 108, 0.2), rgba(118, 75, 162, 0.2));
+    border-color: rgba(255, 65, 108, 0.4);
+    flex: unset;
+    margin-top: 4px;
+}
+
+
+/* --- CONTROL BAR & FLIP BUTTONS --- */
+.card-control-bar {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 12px;
+}
+
+.flip-trigger-btn {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    padding: 8px 14px;
+    border-radius: 10px;
+    color: #cbd5e0;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.flip-trigger-btn:hover {
+    background: rgba(118, 75, 162, 0.15);
+    border-color: rgba(118, 75, 162, 0.5);
+    color: #ffffff;
+}
+
+.flip-icon {
+    font-size: 14px;
+    font-weight: bold;
 }
